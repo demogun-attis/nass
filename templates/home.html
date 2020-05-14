@@ -107,13 +107,48 @@
 	}
 	.button4 {border-radius: 12px;}
 	.button5 {border-radius: 50%;}
+
+	
+
+	body {
+	  margin: 0;
+	  font-family: Arial, Helvetica, sans-serif;
+	}
+	
+	.top-container {
+	  background-color: #f1f1f1;
+	  padding: 30px;
+	  text-align: center;
+	}
+	
+	.header {
+	  padding: 10px 16px;
+	  background: #45b6fe;
+	  color: #f1f1f1;
+	}
+	
+	.content {
+	  padding: 16px;
+	}
+	
+	.sticky {
+	  position: fixed;
+	  top: 0;
+	  width: 100%;
+	}
+	
+	.sticky + .content {
+	  padding-top: 102px;
+	}
     </style>
     </head>
     <body style="background-color: #3792cb">
-        <button class="button button1" onclick="location.href='{% url 'sprinkle_now' %}'">Sprinkle-Sprinkle little NASS</button>
+        <div class="header" id="myHeader">
+	<button class="button button1" onclick="location.href='{% url 'sprinkle_now' %}'">Sprinkle-Sprinkle little NASS</button>
         <button class="button button2" onclick="location.href='{% url 'script' %}'">Get the log!</button>
         <button class="button button3" onclick="location.href='{% url 'individual_runner' %}'">Sprinkle management</button>
-	<hr>
+	</div>
+	<div class="content">
         {% if data %}
 	<div class="divTable blueTable">
 		<div class="divTableHeading">
@@ -157,7 +192,22 @@
 	{% elif individuals %}
 	{{ individuals | safe }}
 	{% else %}
-	<h1>Welcome to NASS Control Page</h1>
+	<h1 style="color:white;">Welcome to NASS Control Page</h1>
 	{% endif %}
+	</div>
+	<script>
+		window.onscroll = function() {myFunction()};
+		
+		var header = document.getElementById("myHeader");
+		var sticky = header.offsetTop;
+		
+		function myFunction() {
+		  if (window.pageYOffset > sticky) {
+		    header.classList.add("sticky");
+		  } else {
+		    header.classList.remove("sticky");
+		  }
+		}
+	</script>
         </body>
 </html>
