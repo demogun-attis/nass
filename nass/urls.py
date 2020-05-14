@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^input$', views.sprinkle_all,name="sprinkle_now"),
     url(r'^individual$', views.individual,name="individual_runner"),
+    url(r'^individual$', views.individual,name="individual_status"),
     url(r'^$', views.button),
     url(r'^$', views.sprinkle_all),
     url(r'^output', views.output,name="script"),

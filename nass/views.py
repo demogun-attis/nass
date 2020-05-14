@@ -59,14 +59,27 @@ def output(request):
     mycursor.execute("SELECT * FROM sprinkle_log ORDER BY date_time DESC")
 
     myresult = mycursor.fetchall()
-    
+    print(myresult)
     return render(request,'home.html',{'data':myresult})
 
 def start_individual_sprinkle():
     print("Starting one sprinkle")
 
 def individual(request):
-    print("blah")
     individual_runner = "<h1 style='color:blue'>You can control the valves one-by-one here</h1>"
+    individual_statuses = individual_status()
+    print("individually: %s" % individual_statuses)
+    final = []
+    final.append(individual_runner)
+    final.append(individual_statuses)
+    print(final)
+    return render(request,'home.html',{'individuals':final})
 
-    return render(request,'home.html',{'individuals':individual_runner})
+def individual_status():
+    individual_status = []
+    pin = ['10', '2', '3', '4', '17', '22', '27', '9']
+    for i in pin:
+        GPIO.setup(int(i), GPIO.OUT)
+        individual_status.append(GPIO.input(int(i)))
+    return individual_status
+
