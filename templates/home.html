@@ -4,6 +4,7 @@
         <title>
         	NASS 
         </title>
+	<link rel="icon" href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/twitter/248/sweat-droplets_1f4a6.png">
     <style>
     div.blueTable {
       border: 1px solid #1C6EA4;
@@ -99,14 +100,19 @@
   		background-color: #FFFFFF;
 		color: #008CBA
 	}
-	.button3 {border-radius: 8px;}
+	.button3 {border-radius: 4px; background-color: red}
+	.button3:hover {
+  		background-color: #FFFFFF;
+		color: red
+	}
 	.button4 {border-radius: 12px;}
 	.button5 {border-radius: 50%;}
     </style>
     </head>
-    <body>
+    <body style="background-color: #3792cb">
         <button class="button button1" onclick="location.href='{% url 'sprinkle_now' %}'">Sprinkle-Sprinkle little NASS</button>
         <button class="button button2" onclick="location.href='{% url 'script' %}'">Get the log!</button>
+        <button class="button button3" onclick="location.href='{% url 'individual_runner' %}'">Sprinkle management</button>
 	<hr>
         {% if data %}
 	<div class="divTable blueTable">
@@ -140,14 +146,18 @@
 			</div>
 		</div>
 	</div>
-        {% endif %}
 
-	{% if sprinkling %}
+	{% elif sprinkling %}
 		{% if 'already' in sprinkling %}
 			<h1 style="color:red;">{{ sprinkling }}</h1>
 		{% else %}
 			<h1 style="color:green;">{{ sprinkling }}</h1>
 		{% endif %}
+
+	{% elif individuals %}
+	{{ individuals | safe }}
+	{% else %}
+	<h1>Welcome to NASS Control Page</h1>
 	{% endif %}
         </body>
 </html>

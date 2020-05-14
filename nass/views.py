@@ -60,12 +60,13 @@ def output(request):
 
     myresult = mycursor.fetchall()
     
-    for row in myresult:
-      gpioID = row[0]
-      gpioName = row[1]
-      date_time = row[2]
-      runtime = row[3]
-      print(gpioID, gpioName, date_time, runtime)
-    #mydb.commit()
-    
     return render(request,'home.html',{'data':myresult})
+
+def start_individual_sprinkle():
+    print("Starting one sprinkle")
+
+def individual(request):
+    print("blah")
+    individual_runner = "<h1 style='color:blue'>You can control the valves one-by-one here</h1>"
+
+    return render(request,'home.html',{'individuals':individual_runner})
