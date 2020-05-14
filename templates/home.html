@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+        	NASS 
+        </title>
+    <style>
+    div.blueTable {
+      border: 1px solid #1C6EA4;
+      background-color: #EEEEEE;
+      width: 100%;
+      text-align: left;
+      border-collapse: collapse;
+    }
+    .divTable.blueTable .divTableCell, .divTable.blueTable .divTableHead {
+      border: 1px solid #AAAAAA;
+      padding: 3px 2px;
+    }
+    .divTable.blueTable .divTableBody .divTableCell {
+      font-size: 13px;
+    }
+    .divTable.blueTable .divTableRow:nth-child(even) {
+      background: #D0E4F5;
+    }
+    .divTable.blueTable .divTableHeading {
+      background: #1C6EA4;
+      background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+      background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+      background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+      border-bottom: 2px solid #444444;
+    }
+    .divTable.blueTable .divTableHeading .divTableHead {
+      font-size: 15px;
+      font-weight: bold;
+      color: #FFFFFF;
+      border-left: 2px solid #D0E4F5;
+    }
+    .divTable.blueTable .divTableHeading .divTableHead:first-child {
+      border-left: none;
+    }
+    
+    .blueTable .tableFootStyle {
+      font-size: 14px;
+      font-weight: bold;
+      color: #FFFFFF;
+      background: #D0E4F5;
+      background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+      background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+      background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+      border-top: 2px solid #444444;
+    }
+    .blueTable .tableFootStyle {
+      font-size: 14px;
+    }
+    .blueTable .tableFootStyle .links {
+         text-align: right;
+    }
+    .blueTable .tableFootStyle .links a{
+      display: inline-block;
+      background: #1C6EA4;
+      color: #FFFFFF;
+      padding: 2px 8px;
+      border-radius: 5px;
+    }
+    .blueTable.outerTableFooter {
+      border-top: none;
+    }
+    .blueTable.outerTableFooter .tableFootStyle {
+      padding: 3px 5px; 
+    }
+    /* DivTable.com */
+    .divTable{ display: table; }
+    .divTableRow { display: table-row; }
+    .divTableHeading { display: table-header-group;}
+    .divTableCell, .divTableHead { display: table-cell;}
+    .divTableHeading { display: table-header-group;}
+    .divTableFoot { display: table-footer-group;}
+    .divTableBody { display: table-row-group;}
+    .button {
+	  background-color: #4CAF50; /* Green */
+	  border: none;
+	  color: white;
+	  padding: 20px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+	  margin: 4px 2px;
+	  cursor: pointer;
+     }
+	
+	.button1 {border-radius: 4px;}
+	.button1:hover {
+  		background-color: #FFFFFF;
+		color: #4CAF50
+	}
+	.button2 {border-radius: 4px; background-color: #008CBA}
+	.button2:hover {
+  		background-color: #FFFFFF;
+		color: #008CBA
+	}
+	.button3 {border-radius: 8px;}
+	.button4 {border-radius: 12px;}
+	.button5 {border-radius: 50%;}
+    </style>
+    </head>
+    <body>
+        <button class="button button1" onclick="location.href='{% url 'sprinkle_now' %}'">Sprinkle-Sprinkle little NASS</button>
+        <button class="button button2" onclick="location.href='{% url 'script' %}'">Get the log!</button>
+	<hr>
+        {% if data %}
+	<div class="divTable blueTable">
+		<div class="divTableHeading">
+			<div class="divTableRow">
+				<div class="divTableHead">GPIO ID</div>
+				<div class="divTableHead">GPIO Name</div>
+				<div class="divTableHead">Date and Time</div>
+				<div class="divTableHead">Duration</div>
+			</div>	
+		</div>
+		<div class="divTableBody">
+	{% for adat in data %}
+			<div class="divTableRow">
+				<div class="divTableHead">{{ adat.0 }}</div>
+				<div class="divTableHead">{{ adat.1 }}</div>
+				<div class="divTableHead">{{ adat.2 }}</div>
+				<div class="divTableHead">{{ adat.3 }}</div>
+			</div>
+		
+	{% endfor %}
+		</div>
+	</div>
+	<div class="blueTable outerTableFooter">
+		<div class="tableFootStyle">
+			<div class="links">
+				<a href="#">&laquo;</a> 
+				<a class="active" href="#">1</a> 
+				<a href="#">2</a> <a href="#">3</a> 
+				<a href="#">4</a> <a href="#">&raquo;</a>
+			</div>
+		</div>
+	</div>
+        {% endif %}
+
+	{% if sprinkling %}
+		{% if 'already' in sprinkling %}
+			<h1 style="color:red;">{{ sprinkling }}</h1>
+		{% else %}
+			<h1 style="color:green;">{{ sprinkling }}</h1>
+		{% endif %}
+	{% endif %}
+        </body>
+</html>
