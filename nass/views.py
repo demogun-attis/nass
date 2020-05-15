@@ -19,7 +19,7 @@ mydb = mysql.connector.connect(
 def sprinkle_all(request):
     print("Starting run_all_sprinkle.py all") 
     pid = str(os.getpid())
-    pidfile = "/tmp/mydaemon.pid"
+    pidfile = "/tmp/run_all_sp_daemon.pid"
     if os.path.isfile(pidfile):
         print("%s already exists. This means that the sprinkling is ongoing. please come back later" % pidfile)
         result="Some sprinkling is already ongoing. Please wait a while."
@@ -56,7 +56,7 @@ def output(request):
     #sql = "INSERT INTO sprinkle_log (gpioID, gpioName, date_time, runtime) VALUES (%s, %s, %s, %s)"
     #val = ("3", "Terrace", "2020-05-11 17:25", "runtime")
     #mycursor.execute(sql, val)
-    mycursor.execute("SELECT * FROM sprinkle_log ORDER BY date_time DESC")
+    mycursor.execute("SELECT * FROM sprinkle_log ORDER BY date_time DESC limit 100")
 
     myresult = mycursor.fetchall()
     print(myresult)

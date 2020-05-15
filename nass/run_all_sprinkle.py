@@ -84,6 +84,22 @@ def sprinkle_all():
       #print("Eh...")
       #GPIO.output((int(i), led), GPIO.LOW)
 
+def open_one_valve(gpioID):
+    sprinkledb_connect()
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT * FROM sprinkle_config WHERE gpioID = %s" % gpioID)
+    myresult = mycursor.fetchone()
+    fields = {myresult[0]: [myresult[1], myresult[2]]} 
+    sprinkle_name = fields.get(int(gpioID))[0]
+    runtime = fields.get(int(gpioID))[1]
+    print("%s, %s, %s" % (gpioID, sprinkle_name, runtime))
+    GPIO.setup(int(gpioID), GPIO.OUT)
+    if GPIO.input(int(gpioID)):
+        stop_sprinkle(gpioID) 
+    else:
+        print("DOWN")
+        start_sprinkle(gpioID, sprinkle_name, runtime)
+  
 def sprinkle_report_stop(gpioID):
     sprinkledb_connect()
     mycursor = mydb.cursor()
@@ -116,14 +132,14 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         # Standard mode
         main()
-    elif len(sys.argv) == 2 and sys.argv[1] == 'test':
+    elif len(sys.argv) == 2 and sys.argv[1] in ['2', '3', '4', '17', '22', '27', '9', '10']:
         # Tests connection to API
         # Make sure you run as root or this won't work
-        test_api()
+        open_one_valve(sys.argv[1])
     elif len(sys.argv) == 2 and sys.argv[1] == 'all':
         # Runs sprinkler regardless of rainfall
         pid = str(os.getpid())
-        pidfile = "/tmp/mydaemon.pid"
+        pidfile = "/tmp/run_all_sp_daemon.pid"
         
         try:
             sprinkle_all()
