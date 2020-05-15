@@ -50,39 +50,35 @@ def stop_sprinkle(gpioID):
     print("This is after: %s" % GPIO.input(int(gpioID)))
 
 def sprinkle_all():
-  #pin = int(config['gpio_starter'])
-  print("sprinkle_all")
-  led = 27
-  # pins on rpi. 10 is reserved for the pump
-  pin = ['2', '3', '4', '17', '22', '27', '9']
-  # time to sleep between operations in the main loop
-  sprinkledb_connect()
-  mycursor = mydb.cursor()
-  mycursor.execute("SELECT * FROM sprinkle_config")
-  myresult = mycursor.fetchall()
-  print(myresult)
-  fields = {}
-  for row in myresult:
-      #fields[row[0]] = [code for code in row[1].split(',')]
-      fields[row[0]] = [row[1], row[2]]
-  print(fields)
-  #try:
-  # Starting PUMP
-  start_pump()
-  
-  for i in pin:
-    print(i)
-    sprinkle_name = fields.get(int(i))[0]
-    runtime = fields.get(int(i))[1]
-    start_sprinkle(i, sprinkle_name, runtime)
-    sleep(runtime) # * 60)
-    stop_sprinkle(i)
-  
-  stop_pump()
+    #pin = int(config['gpio_starter'])
+    print("sprinkle_all")
+    led = 27
+    # pins on rpi. 10 is reserved for the pump
+    pin = ['2', '3', '4', '17', '22', '27', '9']
+    # time to sleep between operations in the main loop
+    sprinkledb_connect()
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT * FROM sprinkle_config")
+    myresult = mycursor.fetchall()
+    print(myresult)
+    fields = {}
+    for row in myresult:
+        #fields[row[0]] = [code for code in row[1].split(',')]
+        fields[row[0]] = [row[1], row[2]]
+    print(fields)
+    #try:
+    # Starting PUMP
+    start_pump()
+    
+    for i in pin:
+        print(i)
+        sprinkle_name = fields.get(int(i))[0]
+        runtime = fields.get(int(i))[1]
+        start_sprinkle(i, sprinkle_name, runtime)
+        sleep(runtime) # * 60)
+        stop_sprinkle(i)
 
-  #except Exception as ex:
-      #print("Eh...")
-      #GPIO.output((int(i), led), GPIO.LOW)
+    stop_pump()
 
 def open_one_valve(gpioID):
     sprinkledb_connect()
@@ -91,13 +87,12 @@ def open_one_valve(gpioID):
     myresult = mycursor.fetchone()
     fields = {myresult[0]: [myresult[1], myresult[2]]} 
     sprinkle_name = fields.get(int(gpioID))[0]
-    runtime = fields.get(int(gpioID))[1]
+    runtime = "Manually started"
     print("%s, %s, %s" % (gpioID, sprinkle_name, runtime))
     GPIO.setup(int(gpioID), GPIO.OUT)
     if GPIO.input(int(gpioID)):
-        stop_sprinkle(gpioID) 
+        stop_sprinkle(gpioID)
     else:
-        print("DOWN")
         start_sprinkle(gpioID, sprinkle_name, runtime)
   
 def sprinkle_report_stop(gpioID):
