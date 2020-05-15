@@ -100,7 +100,7 @@
   		background-color: #FFFFFF;
 		color: #008CBA
 	}
-	.button3 {border-radius: 4px; background-color: red}
+	.button3 {border-radius: 4px; background-color: #0c71e0}
 	.button3:hover {
   		background-color: #FFFFFF;
 		color: red
@@ -111,14 +111,15 @@
 		padding: 100px;
 	}
 	.buttonstat0 {
-		background-color: green;
+		background-color: #06c258;
 		border-radius: 12px;
 		padding: 100px;
 	}
 	.buttonstat1 {
-		background-color: red;
+		background-color: #b5e2ff;
 		border-radius: 12px;
 		padding: 100px;
+		color: #1c4966
 	}
 	.button5 {border-radius: 50%;}
 
@@ -165,6 +166,9 @@
 	    left: 0;
 	    bottom: 0;
 	}
+	.individual_page{
+		padding: 16px
+	}
     </style>
     </head>
     <body style="background-color: #3792cb">
@@ -204,16 +208,18 @@
 			<h1 style="color:green;">{{ sprinkling }}</h1>
 		{% endif %}
 
-	{% elif individuals %}
+	{% elif individuals or valve %}
 	{{ individuals.0 | safe }}
-	<button class="button buttonstat{{ individuals.1.0 }}" onclick="location.href='{% url 'individual_runner' %}'">Pump {{ individuals.1.0 }}</button>
-	<button class="button buttonstat{{ individuals.1.1 }}" onclick="location.href='{% url 'individual_runner' %}'">Front</button>
-	<button class="button buttonstat{{ individuals.1.2 }}" onclick="location.href='{% url 'individual_runner' %}'">Terrace</button>
-	<button class="button buttonstat{{ individuals.1.3 }}" onclick="location.href='{% url 'individual_runner' %}'">Japanese</button>
-	<button class="button buttonstat{{ individuals.1.4 }}" onclick="location.href='{% url 'individual_runner' %}'">Grill-Kitchen</button>
-	<button class="button buttonstat{{ individuals.1.5 }}" onclick="location.href='{% url 'individual_runner' %}'">Fruit 1</button>
-	<button class="button buttonstat{{ individuals.1.6 }}" onclick="location.href='{% url 'individual_runner' %}'">Fruit 2</button>
-	<button class="button buttonstat{{ individuals.1.7 }}" onclick="location.href='{% url 'individual_runner' %}'">Backup</button>
+	<div class="individual_page">
+	<button class="button buttonstat{{ individuals.1.0 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=10'">Pump</button>
+	<button class="button buttonstat{{ individuals.1.1 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=2'">Front</button>
+	<button class="button buttonstat{{ individuals.1.2 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=3'">Terrace</button>
+	<button class="button buttonstat{{ individuals.1.3 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=4'">Japanese</button>
+	<button class="button buttonstat{{ individuals.1.4 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=17'">Grill-Kitchen</button>
+	<button class="button buttonstat{{ individuals.1.5 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=22'">Fruit 1</button>
+	<button class="button buttonstat{{ individuals.1.6 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=27'">Fruit 2</button>
+	<button class="button buttonstat{{ individuals.1.7 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=9'">Backup</button>
+	</div>
 	{% else %}
 	<div class="div-wrapper">
 	<h1 style="color:white;">Welcome to NASS Control Page</h1>

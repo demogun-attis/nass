@@ -62,18 +62,20 @@ def output(request):
     print(myresult)
     return render(request,'home.html',{'data':myresult})
 
-def start_individual_sprinkle():
-    print("Starting one sprinkle")
-
 def individual(request):
-    individual_runner = "<h1 style='color:blue'>You can control the valves one-by-one here</h1>"
+    final = individual_template_page()
+
+    print("FINAL individual: %s" % final)
+    return render(request,'home.html',{'individuals':final})
+
+def individual_template_page():
+    individual_runner = "<h1 style='color:white'>You can control the valves one-by-one here</h1>"
     individual_statuses = individual_status()
     print("individually: %s" % individual_statuses)
     final = []
     final.append(individual_runner)
     final.append(individual_statuses)
-    print(final)
-    return render(request,'home.html',{'individuals':final})
+    return(final)
 
 def individual_status():
     individual_status = []
@@ -83,3 +85,18 @@ def individual_status():
         individual_status.append(GPIO.input(int(i)))
     return individual_status
 
+def valve_switch(request):
+    from .  import run_all_sprinkle
+
+    gpioID = request.GET.get('gpioID')
+    print("This is the requested ID: %s" % gpioID)
+    if individual_status():
+        try:
+            run_all_sprinkle.open_one_valve(gpioID)
+            # subprocess.Popen(['python3.7', '/var/www/html/nass/nass/run_all_sprinkle.py', gpioID])
+        finally:
+            print("Running in finally")
+    final = individual_template_page()
+    print("FINAL: %s" % final)
+    #print("$s pressed" % gpioID)
+    return render(request,'home.html',{'individuals':final})
