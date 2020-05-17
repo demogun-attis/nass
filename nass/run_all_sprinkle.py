@@ -44,14 +44,10 @@ def start_sprinkle(gpioID, sprinkle_name, runtime):
 
 def stop_sprinkle(gpioID):
     print("Stopping sprinkle %s" % gpioID)
-    print("This is before: %s" % GPIO.input(int(gpioID)))
     sprinkle_report_stop(gpioID)
     GPIO.output(int(gpioID), GPIO.LOW)
-    print("This is after: %s" % GPIO.input(int(gpioID)))
 
 def sprinkle_all():
-    #pin = int(config['gpio_starter'])
-    print("sprinkle_all")
     led = 27
     # pins on rpi. 10 is reserved for the pump
     pin = ['2', '3', '4', '17', '22', '27', '9']
@@ -63,15 +59,11 @@ def sprinkle_all():
     print(myresult)
     fields = {}
     for row in myresult:
-        #fields[row[0]] = [code for code in row[1].split(',')]
         fields[row[0]] = [row[1], row[2]]
     print(fields)
-    #try:
-    # Starting PUMP
     start_pump()
     
     for i in pin:
-        print(i)
         sprinkle_name = fields.get(int(i))[0]
         runtime = fields.get(int(i))[1]
         start_sprinkle(i, sprinkle_name, runtime)
@@ -81,17 +73,25 @@ def sprinkle_all():
     stop_pump()
 
 def open_one_valve(gpioID):
+    print("Opening one valve only: %s" % gpioID)
     sprinkledb_connect()
     mycursor = mydb.cursor()
     mycursor.execute("SELECT * FROM sprinkle_config WHERE gpioID = %s" % gpioID)
     myresult = mycursor.fetchone()
     fields = {myresult[0]: [myresult[1], myresult[2]]} 
     sprinkle_name = fields.get(int(gpioID))[0]
-    runtime = "Manually started"
-    print("%s, %s, %s" % (gpioID, sprinkle_name, runtime))
+    runtime = "Manually Started"
     GPIO.setup(int(gpioID), GPIO.OUT)
     if GPIO.input(int(gpioID)):
         stop_sprinkle(gpioID)
+        dt_shit2 = datetime.datetime.now()
+        now2 = dt_shit2.strftime("MS: %Y-%m-%d  ###  %H:%M:%S")
+        sprinkledb_connect()
+        mycursor = mydb.cursor()
+        sql2 = "UPDATE sprinkle_log SET runtime = %s WHERE runtime = 'Manually Started' AND gpioID = %s LIMIT 1"
+        val = (now2, gpioID)
+        mycursor.execute(sql2, val)
+        mydb.commit()    
     else:
         start_sprinkle(gpioID, sprinkle_name, runtime)
   
@@ -106,8 +106,8 @@ def sprinkle_report_stop(gpioID):
 def sprinkle_report(i, sprinkler_name, duration):
     gpioID = i
     sprinkler_name = sprinkler_name
-    now = datetime.datetime.now()
-    
+    dt_shit = datetime.datetime.now()
+    now = dt_shit.strftime("%Y-%m-%d  ###  %H:%M:%S")
     sprinkledb_connect()
     mycursor = mydb.cursor()
     sql = "INSERT INTO sprinkle_log (gpioID, gpioName, date_time, runtime) VALUES (%s, %s, %s, %s)"
@@ -139,7 +139,10 @@ if __name__ == "__main__":
         try:
             sprinkle_all()
         finally:
-            os.unlink(pidfile)
+            if os.path.isfile(pidfile):
+                os.unlink(pidfile)
+            else:
+                print("Program has not been executed by webservice")
     elif len(sys.argv) == 2 and sys.argv[1] == 'init':
         # Sets pin and led GPIOs to GPIO.LOW
         init()
