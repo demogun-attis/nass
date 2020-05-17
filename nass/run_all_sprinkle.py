@@ -123,6 +123,9 @@ def sprinkle_report(i, sprinkler_name, duration):
     mydb.commit()
     # return render(request, 'home.html')
 
+def stop_process():
+    subprocess.Popen(['pkill', '-f', 'run_all_sprinkle.py'])
+
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         # Standard mode
@@ -133,16 +136,10 @@ if __name__ == "__main__":
         open_one_valve(sys.argv[1])
     elif len(sys.argv) == 2 and sys.argv[1] == 'all':
         # Runs sprinkler regardless of rainfall
-        pid = str(os.getpid())
-        pidfile = "/tmp/run_all_sp_daemon.pid"
-        
         try:
             sprinkle_all()
         finally:
-            if os.path.isfile(pidfile):
-                os.unlink(pidfile)
-            else:
-                print("Program has not been executed by webservice")
+            print("Program executed successfully")
     elif len(sys.argv) == 2 and sys.argv[1] == 'init':
         # Sets pin and led GPIOs to GPIO.LOW
         init()

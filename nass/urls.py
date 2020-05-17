@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^input$', views.sprinkle_all,name="sprinkle_now"),
     url(r'^individual$', views.individual,name="individual_runner"),
     url(r'^valve_switch.*$', views.valve_switch,name="valve_switch"),
+    url(r'^stop_process.*$', views.stop_process,name="stop_process"),
     url(r'^$', views.button),
     url(r'^$', views.sprinkle_all),
     url(r'^output', views.output,name="script"),

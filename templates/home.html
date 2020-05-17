@@ -5,6 +5,7 @@
         	NASS 
         </title>
 	<link rel="icon" href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/twitter/248/sweat-droplets_1f4a6.png">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
     .buttonstyle {
       size: 10px;
@@ -125,6 +126,12 @@
 		padding: 70px;
 		color: #1c4966
 	}
+	.buttonstop1 {
+		background-color: #E84C3D;
+		border-radius: 12px;
+		padding: 70px;
+		color: white
+	}
 	.button5 {border-radius: 50%;}
 
 	
@@ -206,10 +213,17 @@
 	</div>
 
 	{% elif sprinkling %}
-		{% if 'already' in sprinkling %}
-			<h1 style="color:red;">{{ sprinkling }}</h1>
+		{% if 'already' in sprinkling.0 %}
+			<h1 style="color:white;">{{ sprinkling.0 }}</h1>
+			<div class="w3-light-grey">
+			<div class="w3-container w3-orange w3-center" style="width:{{ sprinkling.1.0 }}%">{{ sprinkling.1.0 }}%   ---   {{ sprinkling.1.1.0 }}</div>
+			</div>
+			<center>
+			<div style="padding:5%"><button class="button buttonstop1" onclick="location.href='{% url 'stop_process' %}'"><h2>STOP SPRINKLING</h2></button></center></div>
+		{% elif 'Blooming activated' in sprinkling %}
+			<h1 style="color:white;">{{ sprinkling }}</h1>
 		{% else %}
-			<h1 style="color:green;">{{ sprinkling }}</h1>
+			<h1 style="color:white;">{{ sprinkling }}</h1>
 		{% endif %}
 
 	{% elif individuals or valve %}
