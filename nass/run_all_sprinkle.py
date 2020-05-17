@@ -88,7 +88,7 @@ def open_one_valve(gpioID):
         now2 = dt_shit2.strftime("MS: %Y-%m-%d  ###  %H:%M:%S")
         sprinkledb_connect()
         mycursor = mydb.cursor()
-        sql2 = "UPDATE sprinkle_log SET runtime = %s WHERE runtime = 'Manually Started' AND gpioID = %s LIMIT 1"
+        sql2 = "UPDATE sprinkle_log SET runtime = %s WHERE runtime = 'Manually Started' AND gpioID = %s"
         val = (now2, gpioID)
         mycursor.execute(sql2, val)
         mydb.commit()    
