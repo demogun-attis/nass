@@ -14,7 +14,7 @@
 	.home {
 		float: left;
 		width: 33.33%;
-		height: 500px;
+		height: 600px;
 		padding: 10px;
 	}
 	.row:after {
@@ -315,21 +315,26 @@
 	{% else %}
 	<center><h1 style="color:white;">NASS Control Room</h1></center>
 	<div class="row">
-		<div class="home home_top1"><p>On this page you can control your sprinkles spread around your garden.</p></div>
-		<div class="home home_top2">
-		<h3>Get the log!</h3>
-				With <b>Get the log!</b> button you will get an advanced log ot the runs in the past.
-				Every line will contain the gpioID, the name of the circle, the timestamp of opening it, and some duration information.
-				<br>If the valve is opened manually you will see the end date instead of the runtime.
-		</div>
-
 		<div class="home home_middle1">
+			<h1>Hey there!</h1> 
+			<p>On this page you can control your sprinkles spread around in your garden. Cool isn't it?</p>
+			If you already know what you are doing, go to the top menu.<br>
+			If you are a newbie, check the hints in the boxes on my right</div>
+
+		<div class="home home_top2">
 	<h3>Modes</h3>
 	<ul>
 		<li><h4>Automated mode</h4>There is a script (run_all_sprinkle.py) which you can run by crontab. e.g:
 			<br>0 5,18 * * * python3.7 /path/to/run_all_sprinkle.py</li>
-		<li><h4>Running a program manually</h4>Just hit the button "Sprinkle-Sprinkle little NASS" and start the sequence. The program will automatically water every area defined in the sprinkle_config for the defined runtime.</li>
+		<li><h4>Running a program manually</h4>Just hit the button <b>Sprinkle-Sprinkle little NASS</b> and start the sequence with <b>Bloom it baby!</b> button. The program will automatically water every area defined in the sprinkle_config for the defined runtime.</li>
 		<li><h4>Opening the valves one-by-one</h4> By hitting the "Sprinkle Management" button you can control every valve individually. Keep in mind that in this mode you have to open the pump as well.</li></ul>
+		</div>
+
+		<div class="home home_top1">
+		<h3>Get the log!</h3>
+				With <b>Get the log!</b> button you will get an advanced log ot the runs in the past.
+				Every line will contain the gpioID, the name of the circle, the timestamp of opening it, and some duration information.
+				<br>If the valve is opened manually you will see the end date instead of the runtime.
 		</div>
 	</div>
 	{% endif %}
