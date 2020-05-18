@@ -35,20 +35,25 @@ def status_of_program():
         if i != '10':
             GPIO.setup((int(i), led), GPIO.OUT)
             statuses.append(GPIO.input(int(i)))
-    whereweare = (int(statuses.index(1)) + 1)
-    percentage.append(math.ceil(( (statuses.index(1) + 1) / len(statuses) * 100)))
-    for x in range(0, statuses.index(1)):
-        statuses[x] = 1
-    mydb = mysql.connector.connect(
-      host="localhost",
-      user="root",
-      passwd="password",
-      database="sprinkle"
-    )
-    mycursor = mydb.cursor()
-    mycursor.execute("SELECT gpioName FROM sprinkle_config WHERE gpioID = %s" % pin[whereweare])
-    myresult = mycursor.fetchone()
-    percentage.append(myresult)
+    try:
+        whereweare = (int(statuses.index(1)) + 1)
+        percentage.append(math.ceil(( whereweare / len(statuses) * 100)))
+        for x in range(0, (whereweare - 1)):
+            statuses[x] = 1
+        mydb = mysql.connector.connect(
+          host="localhost",
+          user="root",
+          passwd="password",
+          database="sprinkle"
+        )
+        mycursor = mydb.cursor()
+        mycursor.execute("SELECT gpioName FROM sprinkle_config WHERE gpioID = %s" % pin[whereweare])
+        myresult = mycursor.fetchone()
+        percentage.append(myresult)
+    except ValueError:
+        print("List does not contain value")
+        myresult = ['100%', 'Not Running']
+        percentage = myresult
     return(percentage)
 
 def sprinkle_all(request):
@@ -60,21 +65,37 @@ def sprinkle_all(request):
         if GPIO.input(int(i)):
             running = True 
     if running:
-        statuses = status_of_program()
-        result = ["Some sprinkling is already ongoing. Please wait a while, or you can stop it.", statuses]
         runnable = False
     else:
-        result="Sprinkling succesfully started. Blooming activated :)"
         runnable = True
     if runnable:
         try:
             subprocess.Popen(['python3.7', '/var/www/html/nass/nass/run_all_sprinkle.py', 'all'])
+            sleep(3)
+            statuses = status_of_program()
+            result = ["Sprinkling program started. Blooming in progress :)", statuses]
         finally:
             print("Finished program")
     
-    
     return render(request,'home.html',{'sprinkling':result})
     #return render(request, 'home.html')
+
+def program_page(request):
+    print("Starting run_all_sprinkle.py all") 
+    pid = str(os.getpid())
+    running = False
+    for i in pin:
+        GPIO.setup((int(i), led), GPIO.OUT)
+        if GPIO.input(int(i)):
+            running = True 
+    statuses = status_of_program()
+    if running:
+        result = ["Sprinkling program started. Blooming in progress :)", statuses]
+        runnable = False
+    else:
+        result = ["Hey There. Are you ready to sprinkle your garden?", statuses]
+        runnable = True
+    return render(request,'home.html',{'sprinkling':result})
 
 def button(request):
 

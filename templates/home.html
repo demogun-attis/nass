@@ -7,6 +7,13 @@
 	<link rel="icon" href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/twitter/248/sweat-droplets_1f4a6.png">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
+	{% with radio="0" %}
+    .start_button_div {
+    	width: 300px;
+	height: 200px;
+	background-color: #b5e2ff;
+	color: #3792cb;
+    }
     .buttonstyle {
       size: 10px;
     }
@@ -94,43 +101,60 @@
 	  cursor: pointer;
      }
 	
-	.button1 {border-radius: 4px;}
+	.button1 {
+		border-radius: {{ radius }}px;
+	}
 	.button1:hover {
   		background-color: #FFFFFF;
 		color: #4CAF50
 	}
-	.button2 {border-radius: 4px; background-color: #008CBA}
+	.button2 {
+		border-radius: {{ radius }}px;
+		background-color: #008CBA}
 	.button2:hover {
   		background-color: #FFFFFF;
 		color: #008CBA
 	}
-	.button3 {border-radius: 4px; background-color: #0c71e0}
+	.button3 {
+		border-radius: {{ radius }}px;
+		background-color: #0c71e0
+	}
 	.button3:hover {
   		background-color: #FFFFFF;
 		color: red
 	}
 	.button4 {
 		background-color: #008CBA;
-		border-radius: 12px;
+		border-radius: {{ radius }}px;
 		padding: 100px;
 	}
 	.buttonstat0 {
 		background-color: #b5e2ff;
-		border-radius: 12px;
+		border-radius: {{ radius }}px;
 		padding: 70px;
 		color: #3792cb;
 	}
 	.buttonstat1 {
 		background-color: #06c258;
-		border-radius: 12px;
+		border-radius: {{ radius }}px;
 		padding: 70px;
 		color: #1c4966
 	}
 	.buttonstop1 {
 		background-color: #E84C3D;
-		border-radius: 12px;
+		border-radius: {{ radius }}px;
 		padding: 70px;
 		color: white
+	}
+	.buttonstart1 {
+		background-color: #b5e2ff;
+		border-radius: {{ radius }}px;
+		padding: 70px;
+		color: #3792cb
+	}
+	.buttonstart1:hover {
+  		background-color: #4caf50;
+		color: #FFFFFF;
 	}
 	.button5 {border-radius: 50%;}
 
@@ -180,11 +204,12 @@
 	.individual_page{
 		padding: 16px
 	}
+	{% endwith %}
     </style>
     </head>
     <body style="background-color: #3792cb">
         <div class="header" id="myHeader">
-	<button class="button button1" onclick="location.href='{% url 'sprinkle_now' %}'">Sprinkle-Sprinkle little NASS</button>
+	<button class="button button1" onclick="location.href='{% url 'program_page' %}'">Sprinkle-Sprinkle little NASS</button>
         <button class="button button2" onclick="location.href='{% url 'script' %}'">Get the log!</button>
         <button class="button button3" onclick="location.href='{% url 'individual_runner' %}'">Sprinkle management</button>
 	</div>
@@ -213,17 +238,31 @@
 	</div>
 
 	{% elif sprinkling %}
-		{% if 'already' in sprinkling.0 %}
+		{% if 'Blooming' in sprinkling.0 %}
 			<h1 style="color:white;">{{ sprinkling.0 }}</h1>
 			<div class="w3-light-grey">
 				<div class="w3-container w3-orange w3-center" style="width:{{ sprinkling.1.0 }}%"><font color=white>{{ sprinkling.1.1.0 }}</font></div>
 			</div>
-			<center>
-			<div style="padding:5%"><button class="button buttonstop1" onclick="location.href='{% url 'stop_process' %}'"><h2>STOP SPRINKLING</h2></button></center></div>
-		{% elif 'Blooming activated' in sprinkling %}
+			<div style="padding:5%">
+				<center>
+						<button class="button buttonstop1" onclick="location.href='{% url 'stop_process' %}'"><h2>Stop Sprinkling</h2></button>
+				</center>
+			</div>
+		{% elif 'All sprinkling stopped' in sprinkling %}
 			<h1 style="color:white;">{{ sprinkling }}</h1>
 		{% else %}
-			<h1 style="color:white;">{{ sprinkling }}</h1>
+		<center><h1 style="color:white;">{{ sprinkling.0 }}</h1><center>
+				<center>
+						<button class="button buttonstart1" onclick="move(); location.href='{% url 'sprinkle_now' %}'"><h2>Start Program</h2>
+							<div style="background:white">
+							<div style="background-color:light-grey; width:100%; height:20px">
+								<div id="myBar" class="w3-container w3-orange w3-center" style="width:0%; height:20px"></div>
+								<br>
+							</div>
+							</div>
+						</button>
+				</center>
+
 		{% endif %}
 
 	{% elif individuals or valve %}
@@ -256,6 +295,21 @@
 		  } else {
 		    header.classList.remove("sticky");
 		  }
+		}
+		
+		function move() {
+
+			var elem = document.getElementById("myBar");
+			var width = 0;
+			var id = setInterval(frame, 30);
+			function frame() {
+				if (width >= 100) {
+					clearInterval(id);
+				} else {
+					width++;
+					elem.style.width = width + '%';
+				}
+			}
 		}
 	</script>
         </body>
