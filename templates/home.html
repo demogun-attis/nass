@@ -7,7 +7,42 @@
 	<link rel="icon" href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/twitter/248/sweat-droplets_1f4a6.png">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
-	{% with radio="0" %}
+	{% with radius="0" %}
+	* {
+		box-sizing: border-box;
+	}
+	.home {
+		float: left;
+		width: 33.33%;
+		height: 500px;
+		padding: 10px;
+	}
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+	.home_top1 {
+		color:white;
+		background: #0fb5ee;
+	}
+	.home_top2 {
+		color:white;
+		background: #006cff;
+	}
+	.home_middle1 {
+		color:white;
+		background: #ff5251;
+	}
+	.home_loggingbox {
+		float: left;
+		color: white;
+		background: #5c656d;
+		position: absolute;
+		bottom: 0;
+		width: 90%;
+		height: 50%;
+	}
     .start_button_div {
     	width: 300px;
 	height: 200px;
@@ -178,7 +213,7 @@
 	}
 	
 	.content {
-	  padding: 16px;
+	  padding: 0px;
 	}
 	
 	.sticky {
@@ -253,7 +288,7 @@
 		{% else %}
 		<center><h1 style="color:white;">{{ sprinkling.0 }}</h1><center>
 				<center>
-						<button id="startbutton3" class="button buttonstart1" onclick="move(); hidebutton(id); location.href='{% url 'sprinkle_now' %}'"><h2>Start Program</h2>
+						<button id="startbutton3" class="button buttonstart1" onclick="move(); hidebutton(id); location.href='{% url 'sprinkle_now' %}'"><h2>Bloom it baby!</h2>
 							<div style="background:white">
 							<div style="background-color:light-grey; width:100%; height:20px">
 								<div id="myBar" class="w3-container w3-orange w3-center" style="width:0%; height:20px"></div>
@@ -278,8 +313,24 @@
 	<button class="button buttonstat{{ individuals.1.7 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=9'"><h2>Backup</h2></button>
 	</div>
 	{% else %}
-	<div class="div-wrapper">
-	<h1 style="color:white;">Welcome to NASS Control Page</h1>
+	<center><h1 style="color:white;">NASS Control Room</h1></center>
+	<div class="row">
+		<div class="home home_top1"><p>On this page you can control your sprinkles spread around your garden.</p></div>
+		<div class="home home_top2">
+		<h3>Get the log!</h3>
+				With <b>Get the log!</b> button you will get an advanced log ot the runs in the past.
+				Every line will contain the gpioID, the name of the circle, the timestamp of opening it, and some duration information.
+				<br>If the valve is opened manually you will see the end date instead of the runtime.
+		</div>
+
+		<div class="home home_middle1">
+	<h3>Modes</h3>
+	<ul>
+		<li><h4>Automated mode</h4>There is a script (run_all_sprinkle.py) which you can run by crontab. e.g:
+			<br>0 5,18 * * * python3.7 /path/to/run_all_sprinkle.py</li>
+		<li><h4>Running a program manually</h4>Just hit the button "Sprinkle-Sprinkle little NASS" and start the sequence. The program will automatically water every area defined in the sprinkle_config for the defined runtime.</li>
+		<li><h4>Opening the valves one-by-one</h4> By hitting the "Sprinkle Management" button you can control every valve individually. Keep in mind that in this mode you have to open the pump as well.</li></ul>
+		</div>
 	</div>
 	{% endif %}
 	</div>
