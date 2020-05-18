@@ -253,7 +253,7 @@
 		{% else %}
 		<center><h1 style="color:white;">{{ sprinkling.0 }}</h1><center>
 				<center>
-						<button class="button buttonstart1" onclick="move(); location.href='{% url 'sprinkle_now' %}'"><h2>Start Program</h2>
+						<button id="startbutton3" class="button buttonstart1" onclick="move(); hidebutton(id); location.href='{% url 'sprinkle_now' %}'"><h2>Start Program</h2>
 							<div style="background:white">
 							<div style="background-color:light-grey; width:100%; height:20px">
 								<div id="myBar" class="w3-container w3-orange w3-center" style="width:0%; height:20px"></div>
@@ -309,6 +309,12 @@
 					width++;
 					elem.style.width = width + '%';
 				}
+			}
+		}
+		
+		function hidebutton(id){
+			if(id == "startbutton3"){
+				document.getElementById('startbutton3').onclick = null;
 			}
 		}
 	</script>
