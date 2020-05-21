@@ -76,11 +76,13 @@ def sprinkle_all(request):
             result = ["Sprinkling program started. Blooming in progress :)", statuses]
         finally:
             print("Finished program")
-    
+    else:
+        result = program_page_common()
+    print("RRRRRRRRRRRRESULT: \n%s" % result) 
     return render(request,'home.html',{'sprinkling':result})
     #return render(request, 'home.html')
 
-def program_page(request):
+def program_page_common():
     print("Starting run_all_sprinkle.py all") 
     pid = str(os.getpid())
     running = False
@@ -95,6 +97,10 @@ def program_page(request):
     else:
         result = ["Hey There. Are you ready to sprinkle your garden?", statuses]
         runnable = True
+    return result
+    
+def program_page(request):
+    result = program_page_common()
     return render(request,'home.html',{'sprinkling':result})
 
 def button(request):
