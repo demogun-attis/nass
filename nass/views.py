@@ -17,7 +17,7 @@ mydb = mysql.connector.connect(
   database="sprinkle"
 )
 led = 23
-pin = ['10', '2', '3', '4', '17', '22', '27', '9']
+pin = ['9', '14', '5', '23', '12', '3', '2', '17']
 
 def stop_process(request):
     subprocess.Popen(['pkill', '-f', 'run_all_sprinkle'])
@@ -32,8 +32,8 @@ def status_of_program():
     statuses = []
     percentage = []
     for i in pin:
-        if i != '10':
-            GPIO.setup((int(i), led), GPIO.OUT)
+        if i != '9':
+            #GPIO.setup((int(i), led), GPIO.OUT)
             statuses.append(GPIO.input(int(i)))
     try:
         whereweare = (int(statuses.index(1)) + 1)
@@ -135,7 +135,7 @@ def individual_template_page():
 
 def individual_status():
     individual_status = []
-    pin = ['10', '2', '3', '4', '17', '22', '27', '9']
+    pin = ['9', '14', '5', '23', '12', '3', '2', '17']
     for i in pin:
         GPIO.setup(int(i), GPIO.OUT)
         individual_status.append(GPIO.input(int(i)))

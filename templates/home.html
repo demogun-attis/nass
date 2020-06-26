@@ -303,14 +303,14 @@
 	{% elif individuals or valve %}
 	{{ individuals.0 | safe }}
 	<div class="individual_page">
-	<button class="button buttonstat{{ individuals.1.0 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=10'"><h2>Pump</h2></button>
-	<button class="button buttonstat{{ individuals.1.1 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=2'"><h2>Front</h2></button>
-	<button class="button buttonstat{{ individuals.1.2 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=3'"><h2>Terrace</h2></button>
-	<button class="button buttonstat{{ individuals.1.3 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=4'"><h2>Japanese</h2></button>
-	<button class="button buttonstat{{ individuals.1.4 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=17'"><h2>Grill-Kitchen</h2></button>
-	<button class="button buttonstat{{ individuals.1.5 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=22'"><h2>Fruit 1</h2></button>
-	<button class="button buttonstat{{ individuals.1.6 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=27'"><h2>Fruit 2</h2></button>
-	<button class="button buttonstat{{ individuals.1.7 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=9'"><h2>Backup</h2></button>
+	<button class="button buttonstat{{ individuals.1.0 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=9'"><h2>Pump</h2></button>
+	<button class="button buttonstat{{ individuals.1.1 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=14'"><h2>Front</h2></button>
+	<button class="button buttonstat{{ individuals.1.2 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=5'"><h2>Terrace</h2></button>
+	<button class="button buttonstat{{ individuals.1.3 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=23'"><h2>Japanese</h2></button>
+	<button class="button buttonstat{{ individuals.1.4 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=12'"><h2>Grill-Kitchen</h2></button>
+	<button class="button buttonstat{{ individuals.1.5 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=3'"><h2>Fruit 1</h2></button>
+	<button class="button buttonstat{{ individuals.1.6 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=2'"><h2>Fruit 2</h2></button>
+	<button class="button buttonstat{{ individuals.1.7 }}" onclick="location.href='{% url 'valve_switch' %}/?gpioID=17'"><h2>Backup</h2></button>
 	</div>
 	{% else %}
 	<center><h1 style="color:white;">NASS Control Room</h1></center>

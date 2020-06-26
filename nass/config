@@ -24,7 +24,7 @@ rain_threshold_in = 0.05
 
 ####
 ## GPIO pins to control the sprinkler and the status LEDs
-gpio_starter = [2, 3, 4, 17, 27, 22, 10, 9]
+gpio_starter = [7, 8, 9, 12, 13, 14, 15, 21]
 gpio_led1 = 27
 #gpio_led2 = 22  # Not used currently
 

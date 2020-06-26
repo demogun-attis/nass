@@ -24,17 +24,17 @@ def start_pump():
     print("Starting pump")
     # Opening Pump
     pump = 'Pump'
-    GPIO.setup((10, led), GPIO.OUT)
-    GPIO.output((10, led), GPIO.HIGH)
+    GPIO.setup((9, led), GPIO.OUT)
+    GPIO.output((9, led), GPIO.HIGH)
     # Report Pump
-    sprinkle_report("10", pump, "infinity")
+    sprinkle_report("9", pump, "infinity")
 
 def stop_pump():
     print("Stopping pump")
     # Opening Pump
     pump = 'Pump'
-    sprinkle_report_stop('10')
-    GPIO.output((10, led), GPIO.LOW)
+    sprinkle_report_stop('9')
+    GPIO.output((9, led), GPIO.LOW)
     
 def start_sprinkle(gpioID, sprinkle_name, runtime): 
     print("Starting sprinkle %s:%s" % (gpioID, sprinkle_name))
@@ -50,7 +50,7 @@ def stop_sprinkle(gpioID):
 def sprinkle_all():
     led = 27
     # pins on rpi. 10 is reserved for the pump
-    pin = ['2', '3', '4', '17', '22', '27', '9']
+    pin = ['14', '5', '23', '12', '3', '2', '17']
     # time to sleep between operations in the main loop
     sprinkledb_connect()
     mycursor = mydb.cursor()
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         # Standard mode
         main()
-    elif len(sys.argv) == 2 and sys.argv[1] in ['2', '3', '4', '17', '22', '27', '9', '10']:
+    elif len(sys.argv) == 2 and sys.argv[1] in ['14', '5', '23', '12', '3', '2', '17', '9']:
         # Tests connection to API
         # Make sure you run as root or this won't work
         open_one_valve(sys.argv[1])
