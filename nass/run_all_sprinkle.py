@@ -25,7 +25,7 @@ def start_pump():
     # Opening Pump
     pump = 'Pump'
     GPIO.setup((9, led), GPIO.OUT)
-    GPIO.output((9, led), GPIO.HIGH)
+    GPIO.output((9, led), GPIO.LOW)
     # Report Pump
     sprinkle_report("9", pump, "infinity")
 
@@ -34,18 +34,18 @@ def stop_pump():
     # Opening Pump
     pump = 'Pump'
     sprinkle_report_stop('9')
-    GPIO.output((9, led), GPIO.LOW)
+    GPIO.output((9, led), GPIO.HIGH)
     
 def start_sprinkle(gpioID, sprinkle_name, runtime): 
     print("Starting sprinkle %s:%s" % (gpioID, sprinkle_name))
     GPIO.setup(int(gpioID), GPIO.OUT)
-    GPIO.output(int(gpioID), GPIO.HIGH)
+    GPIO.output(int(gpioID), GPIO.LOW)
     sprinkle_report(int(gpioID), sprinkle_name, runtime)
 
 def stop_sprinkle(gpioID):
     print("Stopping sprinkle %s" % gpioID)
     sprinkle_report_stop(gpioID)
-    GPIO.output(int(gpioID), GPIO.LOW)
+    GPIO.output(int(gpioID), GPIO.HIGH)
 
 def sprinkle_all():
     led = 27
@@ -82,7 +82,7 @@ def open_one_valve(gpioID):
     sprinkle_name = fields.get(int(gpioID))[0]
     runtime = "Manually Started"
     GPIO.setup(int(gpioID), GPIO.OUT)
-    if GPIO.input(int(gpioID)):
+    if not GPIO.input(int(gpioID)):
         stop_sprinkle(gpioID)
         dt_shit2 = datetime.datetime.now()
         now2 = dt_shit2.strftime("MS: %Y-%m-%d  ###  %H:%M:%S")

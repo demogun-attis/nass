@@ -23,8 +23,8 @@ def stop_process(request):
     subprocess.Popen(['pkill', '-f', 'run_all_sprinkle'])
     for i in pin:
         GPIO.setup((int(i), led), GPIO.OUT)
-        if GPIO.input(int(i)):
-            GPIO.output((int(i), led), GPIO.LOW) 
+        if not GPIO.input(int(i)):
+            GPIO.output((int(i), led), GPIO.HIGH) 
     result = "All sprinkling stopped."
     return render(request,'home.html',{'sprinkling':result})
 
@@ -62,7 +62,7 @@ def sprinkle_all(request):
     running = False
     for i in pin:
         GPIO.setup((int(i), led), GPIO.OUT)
-        if GPIO.input(int(i)):
+        if not GPIO.input(int(i)):
             running = True 
     if running:
         runnable = False
@@ -88,7 +88,7 @@ def program_page_common():
     running = False
     for i in pin:
         GPIO.setup((int(i), led), GPIO.OUT)
-        if GPIO.input(int(i)):
+        if not GPIO.input(int(i)):
             running = True 
     statuses = status_of_program()
     if running:
